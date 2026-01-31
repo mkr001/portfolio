@@ -14,7 +14,6 @@ return new class extends Migration
         Schema::table('users', function (Blueprint $table) {
             $table->string('email_verification_otp', 6)->nullable();
             $table->timestamp('email_verification_otp_expires_at')->nullable();
-            $table->timestamp('email_verified_at')->nullable();
         });
     }
 
@@ -24,7 +23,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn(['email_verification_otp', 'email_verification_otp_expires_at', 'email_verified_at']);
+            $table->dropColumn(['email_verification_otp', 'email_verification_otp_expires_at']);
         });
     }
 };

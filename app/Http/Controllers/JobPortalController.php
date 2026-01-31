@@ -52,15 +52,15 @@ class JobPortalController extends Controller
             ]
         ]);
 
-        // Create temporary user to send OTP
-        $tempUser = new User();
-        $tempUser->email = $request->email;
-        $tempUser->name = $request->name;
-        $otp = $tempUser->generateEmailVerificationOtp();
-
+        // Generate OTP
+        $otp = str_pad(random_int(0, 999999), 6, '0', STR_PAD_LEFT);
+        
         // Send OTP via email (for now, we'll display it)
         // In production, you would send this via Mail::send()
-        session(['registration_otp' => $otp]);
+        session([
+            'registration_otp' => $otp,
+            'registration_otp_expires_at' => now()->addMinutes(10)->timestamp
+        ]);
 
         return redirect()->route('portal.verify_email')->with('success', 'Please check your email for the verification code. (For testing: ' . $otp . ')');
     }
@@ -81,9 +81,16 @@ class JobPortalController extends Controller
 
         $registrationData = session('registration_data');
         $sessionOtp = session('registration_otp');
+        $otpExpiresAt = session('registration_otp_expires_at');
 
         if (!$registrationData || !$sessionOtp) {
             return back()->with('error', 'Session expired. Please register again.');
+        }
+
+        // Check if OTP has expired
+        if ($otpExpiresAt && now()->timestamp > $otpExpiresAt) {
+            session()->forget(['registration_data', 'registration_otp', 'registration_otp_expires_at']);
+            return redirect()->route('portal.register')->with('error', 'OTP has expired. Please register again.');
         }
 
         if ($request->otp !== $sessionOtp) {
@@ -100,7 +107,7 @@ class JobPortalController extends Controller
         ]);
 
         // Clear session data
-        session()->forget(['registration_data', 'registration_otp']);
+        session()->forget(['registration_data', 'registration_otp', 'registration_otp_expires_at']);
 
         // Log the user in
         Auth::login($user);
