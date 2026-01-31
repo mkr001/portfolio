@@ -22,7 +22,14 @@
                 <div class="flex flex-col {{ $msg->is_from_admin ? 'items-end' : 'items-start' }}">
                     <div class="max-w-[75%] p-4 rounded-2xl text-sm 
                         {{ $msg->is_from_admin ? 'bg-indigo-600 text-white rounded-tr-none' : 'bg-white/5 text-gray-200 border border-white/5 rounded-tl-none' }}">
-                        {{ $msg->message }}
+                        @if($msg->image_path)
+                            <div class="mb-2">
+                                <img src="{{ Storage::url($msg->image_path) }}" alt="Image" class="max-w-full rounded-lg cursor-pointer hover:opacity-90" onclick="window.open(this.src)">
+                            </div>
+                        @endif
+                        @if($msg->message)
+                            {{ $msg->message }}
+                        @endif
                     </div>
                     <span class="text-[10px] text-gray-500 mt-1 uppercase tracking-tighter">
                         {{ $msg->created_at->format('M d, h:i A') }}
@@ -33,11 +40,15 @@
 
         <!-- Input Area -->
         <div class="p-4 bg-white/5 border-t border-white/5">
-            <form action="{{ route('admin.chats.send', $user->id) }}" method="POST" class="flex gap-4">
+            <form action="{{ route('admin.chats.send', $user->id) }}" method="POST" enctype="multipart/form-data" class="flex gap-4 items-center">
                 @csrf
-                <input type="text" name="message" placeholder="Type your response to {{ $user->name }}..." required autocomplete="off"
+                <div class="relative w-10 h-10 bg-white/5 hover:bg-white/10 rounded-xl flex items-center justify-center cursor-pointer transition">
+                    <span class="text-xl">📷</span>
+                    <input type="file" name="image" accept="image/*" class="absolute inset-0 opacity-0 cursor-pointer" onchange="if(this.files[0]) this.parentElement.style.background='#4f46e5'">
+                </div>
+                <input type="text" name="message" placeholder="Type your response to {{ $user->name }}..." autocomplete="off"
                        class="flex-1 bg-slate-900 border border-white/10 rounded-xl px-4 py-3 text-white outline-none focus:border-indigo-500 transition">
-                <button type="submit" class="bg-indigo-600 hover:bg-indigo-500 text-white font-bold px-8 rounded-xl transition uppercase tracking-widest text-xs">
+                <button type="submit" class="bg-indigo-600 hover:bg-indigo-500 text-white font-bold px-8 rounded-xl transition uppercase tracking-widest text-xs h-12">
                     Send
                 </button>
             </form>

@@ -111,6 +111,17 @@ Route::prefix('portal')->name('portal.')->group(function () {
         
         // Freelance Client Routes
         Route::post('/freelance-submit', [JobPortalController::class, 'submitFreelanceInquiry'])->name('freelance.submit');
+
+        // Friendship and P2P Chat Routes
+        Route::get('/users/search', [JobPortalController::class, 'searchUsers'])->name('users.search');
+        Route::post('/friend-request/send/{user}', [JobPortalController::class, 'sendFriendRequest'])->name('friend_request.send');
+        Route::get('/friend-requests', [JobPortalController::class, 'friendRequests'])->name('friend_requests');
+        Route::post('/friend-request/accept/{friendship}', [JobPortalController::class, 'acceptFriendRequest'])->name('friend_request.accept');
+        Route::post('/friend-request/reject/{friendship}', [JobPortalController::class, 'rejectFriendRequest'])->name('friend_request.reject');
+        Route::get('/friends', [JobPortalController::class, 'friendsList'])->name('friends.list');
+        Route::post('/friend-request/block/{friendship}', [JobPortalController::class, 'blockFriend'])->name('friend.block');
+        Route::get('/chat/friend/{friendship}', [JobPortalController::class, 'friendChat'])->name('chat.friend');
+        Route::post('/chat/friend/{friendship}/send', [JobPortalController::class, 'sendFriendMessage'])->name('chat.friend.send');
     });
 });
 

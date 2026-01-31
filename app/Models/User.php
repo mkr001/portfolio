@@ -22,6 +22,10 @@ class User extends Authenticatable
         'email',
         'password',
         'role',
+        'custom_role',
+        'age',
+        'gender',
+        'dob',
         'email_verification_otp',
         'email_verification_otp_expires_at',
         'email_verified_at',
@@ -47,6 +51,38 @@ class User extends Authenticatable
         return $this->hasMany(ChatMessage::class);
     }
 
+    public function sentFriendRequests()
+    {
+        return $this->hasMany(Friendship::class, 'sender_id');
+    }
+
+    public function receivedFriendRequests()
+    {
+        return $this->hasMany(Friendship::class, 'receiver_id');
+    }
+
+    public function friends()
+    {
+        $sentFriends = $this->sentFriendRequests()->where('status', 'accepted')->with('receiver')->get()->pluck('receiver');
+        $receivedFriends = $this->receivedFriendRequests()->where('status', 'accepted')->with('sender')->get()->pluck('sender');
+        return $sentFriends->merge($receivedFriends);
+    }
+
+    public function isFriendsWith($userId)
+    {
+        return Friendship::betweenUsers($this->id, $userId)->where('status', 'accepted')->exists();
+    }
+
+    public function hasPendingRequestFrom($userId)
+    {
+        return $this->receivedFriendRequests()->where('sender_id', $userId)->where('status', 'pending')->exists();
+    }
+
+    public function hasSentRequestTo($userId)
+    {
+        return $this->sentFriendRequests()->where('receiver_id', $userId)->where('status', 'pending')->exists();
+    }
+
     /**
      * The attributes that should be hidden for serialization.
      *
@@ -67,6 +103,7 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'email_verification_otp_expires_at' => 'datetime',
+            'dob' => 'date',
             'password' => 'hashed',
         ];
     }

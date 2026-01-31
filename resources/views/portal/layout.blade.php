@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>{{ config('app.name', 'Portal') }} - @yield('title')</title>
     <link rel="stylesheet" href="{{ asset('css/portal.css') }}">
 </head>
@@ -10,15 +11,31 @@
     @if (!request()->routeIs('portal.login', 'portal.register.post', 'portal.register', 'register', 'register.post'))
     <nav class="navbar">
         <a href="{{ route('home') }}" class="logo">Portfolio</a>
-        <div class="nav-links">
-            <a href="{{ route('portal.dashboard') }}" class="nav-link">Dashboard</a>
-            <a href="{{ route('portal.chat') }}" class="nav-link">
-                💬 Chat
-                @if(isset($unreadUserChatCount) && $unreadUserChatCount > 0)
-                    <span style="background: #ef4444; color: white; border-radius: 50%; padding: 0.1rem 0.4rem; font-size: 0.7rem; margin-left: 0.2rem;">{{ $unreadUserChatCount }}</span>
-                @endif
-            </a>
-            <a href="{{ route('portal.support') }}" class="nav-link" style="color: #4ade80; font-weight: bold;">❤️ Donate</a>
+            <div class="nav-links">
+                <a href="{{ route('portal.dashboard') }}" class="nav-link">Dashboard</a>
+                <a href="{{ route('portal.users.search') }}" class="nav-link">🔍 Find Users</a>
+                <a href="{{ route('portal.friends.list') }}" class="nav-link">
+                    👥 My Friends
+                    @if(isset($unreadFriendMessages) && $unreadFriendMessages > 0)
+                        <span style="background: #3b82f6; color: white; border-radius: 50%; padding: 0.1rem 0.4rem; font-size: 0.7rem; margin-left: 0.2rem;">{{ $unreadFriendMessages }}</span>
+                    @endif
+                </a>
+                <a href="{{ route('portal.friend_requests') }}" class="nav-link">
+                    🔔 Requests
+                    @php
+                        $pendingCount = \App\Models\Friendship::where('receiver_id', Auth::id())->where('status', 'pending')->count();
+                    @endphp
+                    @if($pendingCount > 0)
+                        <span style="background: #fbbf24; color: black; border-radius: 50%; padding: 0.1rem 0.4rem; font-size: 0.7rem; margin-left: 0.2rem; font-weight: bold;">{{ $pendingCount }}</span>
+                    @endif
+                </a>
+                <a href="{{ route('portal.chat') }}" class="nav-link">
+                    💬 Admin Chat
+                    @if(isset($unreadUserChatCount) && $unreadUserChatCount > 0)
+                        <span style="background: #ef4444; color: white; border-radius: 50%; padding: 0.1rem 0.4rem; font-size: 0.7rem; margin-left: 0.2rem;">{{ $unreadUserChatCount }}</span>
+                    @endif
+                </a>
+                <a href="{{ route('portal.support') }}" class="nav-link" style="color: #4ade80; font-weight: bold;">❤️ Donate</a>
             @auth
                 <a href="#" onclick="document.getElementById('feedback-modal').style.display='flex'" class="nav-link">⭐ Feedback</a>
                 @if(Auth::user()->role === 'employer')

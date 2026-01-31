@@ -12,6 +12,7 @@ use App\Models\JobApplication;
 use App\Models\BusinessInquiry;
 use App\Models\FreelanceInquiry;
 use App\Models\ChatMessage;
+use Illuminate\Support\Facades\Auth;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -76,19 +77,36 @@ class AppServiceProvider extends ServiceProvider
             
             // Unread Chat Messages for Admin (from users) - Cache for 120s
             $unreadAdminChatCount = Cache::remember('admin_unread_chat', 120, function () {
-                return ChatMessage::where('is_from_admin', false)->where('is_read', false)->count();
+                return ChatMessage::whereNull('friendship_id')->where('is_from_admin', false)->where('is_read', false)->count();
             });
             $view->with('unreadAdminChatCount', $unreadAdminChatCount);
         });
 
         // Portal Views unread count
         View::composer('portal.*', function ($view) {
-            if (auth()->check()) {
-                $unreadUserChatCount = auth()->user()->chatMessages()
-                    ->where('is_from_admin', true)
-                    ->where('is_read', false)
-                    ->count();
+            if (Auth::check()) {
+                $userId = Auth::id();
+                
+                $unreadUserChatCount = Cache::remember("user_{$userId}_admin_chat_unread", 60, function () use ($userId) {
+                    return ChatMessage::where('user_id', $userId)
+                        ->whereNull('friendship_id')
+                        ->where('is_from_admin', true)
+                        ->where('is_read', false)
+                        ->count();
+                });
+
+                $unreadFriendMessages = Cache::remember("user_{$userId}_friend_chat_unread", 60, function () use ($userId) {
+                    return ChatMessage::whereNotNull('friendship_id')
+                        ->whereHas('friendship', function($q) use ($userId) {
+                            $q->where('sender_id', $userId)->orWhere('receiver_id', $userId);
+                        })
+                        ->where('user_id', '!=', $userId)
+                        ->where('is_read', false)
+                        ->count();
+                });
+
                 $view->with('unreadUserChatCount', $unreadUserChatCount);
+                $view->with('unreadFriendMessages', $unreadFriendMessages);
             }
         });
     }

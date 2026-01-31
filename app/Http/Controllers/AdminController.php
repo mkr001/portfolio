@@ -58,7 +58,7 @@ class AdminController extends Controller
                 'freelance_inquiries' => FreelanceInquiry::count(),
                 'users' => User::count(),
                 'feedbacks' => Feedback::count(),
-                'unread_chats' => ChatMessage::where('is_from_admin', false)->where('is_read', false)->count(),
+                'unread_chats' => ChatMessage::whereNull('friendship_id')->where('is_from_admin', false)->where('is_read', false)->count(),
                 'total_donations' => Setting::get('total_donations', 0),
                 'unread_donations' => Donation::where('is_published', false)->count(),
             ];
@@ -227,9 +227,11 @@ class AdminController extends Controller
     public function chats()
     {
         // Get users who have messages, ordered by most recent message
-        $users = User::whereHas('chatMessages')
+        $users = User::whereHas('chatMessages', function($q) {
+                $q->whereNull('friendship_id');
+            })
             ->withCount(['chatMessages as unread_count' => function($query) {
-                $query->where('is_from_admin', false)->where('is_read', false);
+                $query->whereNull('friendship_id')->where('is_from_admin', false)->where('is_read', false);
             }])
             ->latest()
             ->paginate(15);
@@ -239,10 +241,10 @@ class AdminController extends Controller
 
     public function userChat(User $user)
     {
-        $messages = $user->chatMessages()->orderBy('created_at', 'asc')->get();
+        $messages = $user->chatMessages()->whereNull('friendship_id')->orderBy('created_at', 'asc')->get();
         
         // Mark user messages as read
-        $user->chatMessages()->where('is_from_admin', false)->update(['is_read' => true]);
+        $user->chatMessages()->whereNull('friendship_id')->where('is_from_admin', false)->update(['is_read' => true]);
         
         Cache::forget('admin_dashboard_stats');
         Cache::forget('admin_unread_chat');
@@ -253,11 +255,18 @@ class AdminController extends Controller
     public function adminSendMessage(Request $request, User $user)
     {
         $request->validate([
-            'message' => 'required|string',
+            'message' => 'nullable|required_without:image|string',
+            'image' => 'nullable|image|max:5120',
         ]);
+
+        $imagePath = null;
+        if ($request->hasFile('image')) {
+            $imagePath = $request->file('image')->store('chat_images', 'public');
+        }
 
         $user->chatMessages()->create([
             'message' => $request->message,
+            'image_path' => $imagePath,
             'is_from_admin' => true,
         ]);
 
