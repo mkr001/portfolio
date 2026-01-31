@@ -53,6 +53,9 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::post('/feedbacks/{feedback}/status', [AdminController::class, 'adminUpdateFeedbackStatus'])->name('feedbacks.status');
         Route::delete('/feedbacks/{feedback}', [AdminController::class, 'deleteFeedback'])->name('feedbacks.delete');
         
+        Route::get('/settings', [AdminController::class, 'settings'])->name('settings');
+        Route::post('/settings', [AdminController::class, 'updateSettings'])->name('settings.update');
+        
         Route::get('/callbacks', [AdminController::class, 'callbacks'])->name('callbacks');
         Route::get('/projects', [AdminController::class, 'projects'])->name('projects');
         Route::post('/projects', [AdminController::class, 'storeProject'])->name('projects.store');

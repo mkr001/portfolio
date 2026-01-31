@@ -13,6 +13,7 @@ use App\Models\FreelanceInquiry;
 use App\Models\ChatMessage;
 use App\Models\User;
 use App\Models\Feedback;
+use App\Models\Setting;
 use Illuminate\Support\Facades\Storage;
 
 class AdminController extends Controller
@@ -56,6 +57,7 @@ class AdminController extends Controller
                 'users' => User::count(),
                 'feedbacks' => Feedback::count(),
                 'unread_chats' => ChatMessage::where('is_from_admin', false)->where('is_read', false)->count(),
+                'total_donations' => Setting::get('total_donations', 0),
             ];
         });
         
@@ -274,6 +276,23 @@ class AdminController extends Controller
     {
         $feedback->delete();
         return redirect()->back()->with('success', 'Feedback deleted.');
+    }
+
+    public function settings()
+    {
+        $settings = Setting::all()->pluck('value', 'key');
+        return view('admin.settings', compact('settings'));
+    }
+
+    public function updateSettings(Request $request)
+    {
+        foreach ($request->except('_token') as $key => $value) {
+            Setting::set($key, $value);
+        }
+
+        Cache::forget('admin_dashboard_stats');
+        
+        return redirect()->back()->with('success', 'Global settings updated.');
     }
 
     public function callbacks()

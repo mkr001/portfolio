@@ -62,6 +62,12 @@
         <div class="text-5xl font-black text-red-500">{{ $stats['unread_chats'] }}</div>
         <div class="mt-4 text-xs text-gray-500 underline">Respond to users →</div>
     </a>
+    <!-- Stat 8 -->
+    <a href="{{ route('admin.settings') }}" class="card p-8 rounded-3xl shadow-xl hover:bg-white/5 transition border-l-4 border-green-500 block">
+        <div class="text-gray-400 font-semibold mb-2 text-sm uppercase">Support Received</div>
+        <div class="text-5xl font-black text-green-400">₹{{ number_format($stats['total_donations']) }}</div>
+        <div class="mt-4 text-xs text-gray-500 underline">Update settings →</div>
+    </a>
 </div>
 
 <div class="mt-12 grid grid-cols-1 lg:grid-cols-2 gap-8">

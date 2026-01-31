@@ -78,6 +78,10 @@
                 <span class="mr-3">⭐</span> Feedback
             </a>
 
+            <a href="{{ route('admin.settings') }}" class="nav-link flex items-center px-4 py-3 rounded-xl transition {{ request()->routeIs('admin.settings') ? 'active' : '' }}">
+                <span class="mr-3">⚙️</span> Settings
+            </a>
+
             <a href="{{ route('admin.business_inquiries') }}" class="nav-link flex items-center justify-between px-4 py-3 rounded-xl transition {{ request()->routeIs('admin.business_inquiries') ? 'active' : '' }}">
                 <div class="flex items-center">
                     <span class="mr-3">🤝</span> Business
