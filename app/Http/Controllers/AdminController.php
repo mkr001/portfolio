@@ -14,6 +14,7 @@ use App\Models\ChatMessage;
 use App\Models\User;
 use App\Models\Feedback;
 use App\Models\Setting;
+use App\Models\Donation;
 use Illuminate\Support\Facades\Storage;
 
 class AdminController extends Controller
@@ -58,6 +59,7 @@ class AdminController extends Controller
                 'feedbacks' => Feedback::count(),
                 'unread_chats' => ChatMessage::where('is_from_admin', false)->where('is_read', false)->count(),
                 'total_donations' => Setting::get('total_donations', 0),
+                'unread_donations' => Donation::where('is_published', false)->count(),
             ];
         });
         
@@ -293,6 +295,35 @@ class AdminController extends Controller
         Cache::forget('admin_dashboard_stats');
         
         return redirect()->back()->with('success', 'Global settings updated.');
+    }
+
+    public function donations()
+    {
+        $donations = Donation::latest()->paginate(20);
+        return view('admin.donations', compact('donations'));
+    }
+
+    public function updateDonationThanks(Request $request, Donation $donation)
+    {
+        $request->validate([
+            'admin_thanks_note' => 'required|string|max:1000',
+        ]);
+
+        $donation->update([
+            'admin_thanks_note' => $request->admin_thanks_note,
+            'is_published' => true,
+        ]);
+
+        Cache::forget('admin_dashboard_stats');
+
+        return redirect()->back()->with('success', 'Thank you note published for ' . $donation->donor_name);
+    }
+
+    public function deleteDonation(Donation $donation)
+    {
+        $donation->delete();
+        Cache::forget('admin_dashboard_stats');
+        return redirect()->back()->with('success', 'Donation record deleted.');
     }
 
     public function callbacks()

@@ -82,6 +82,12 @@
                 <span class="mr-3">⚙️</span> Settings
             </a>
 
+            <a href="{{ route('admin.donations') }}" class="nav-link flex items-center justify-between px-4 py-3 rounded-xl transition {{ request()->routeIs('admin.donations') ? 'active' : '' }}">
+                <div class="flex items-center">
+                    <span class="mr-3">💝</span> Donations
+                </div>
+            </a>
+
             <a href="{{ route('admin.business_inquiries') }}" class="nav-link flex items-center justify-between px-4 py-3 rounded-xl transition {{ request()->routeIs('admin.business_inquiries') ? 'active' : '' }}">
                 <div class="flex items-center">
                     <span class="mr-3">🤝</span> Business

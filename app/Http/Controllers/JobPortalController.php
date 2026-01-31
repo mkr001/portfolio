@@ -13,6 +13,7 @@ use App\Models\BusinessInquiry;
 use App\Models\FreelanceInquiry;
 use App\Models\ChatMessage;
 use App\Models\Feedback;
+use App\Models\Donation;
 
 class JobPortalController extends Controller
 {
@@ -184,6 +185,28 @@ class JobPortalController extends Controller
 
         return back()->with('success', 'Thank you for your feedback! It has been submitted for review.');
     }
+
+    public function reportDonation(Request $request)
+    {
+        $request->validate([
+            'donor_name' => 'required|string|max:255',
+            'amount' => 'nullable|numeric|min:0',
+            'transaction_id' => 'nullable|string|max:255',
+            'message' => 'nullable|string|max:1000',
+        ]);
+
+        Donation::create([
+            'user_id' => Auth::id(),
+            'donor_name' => $request->donor_name,
+            'amount' => $request->amount,
+            'transaction_id' => $request->transaction_id,
+            'message' => $request->message,
+            'is_published' => false,
+        ]);
+
+        return back()->with('success', 'Thank you for your donation report! Mukesh will review it and add you to the Wall of Fame.');
+    }
+
 
 
     public function applicants()

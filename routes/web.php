@@ -56,6 +56,10 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('/settings', [AdminController::class, 'settings'])->name('settings');
         Route::post('/settings', [AdminController::class, 'updateSettings'])->name('settings.update');
         
+        Route::get('/donations', [AdminController::class, 'donations'])->name('donations');
+        Route::post('/donations/{donation}/thanks', [AdminController::class, 'updateDonationThanks'])->name('donations.thanks');
+        Route::delete('/donations/{donation}', [AdminController::class, 'deleteDonation'])->name('donations.delete');
+        
         Route::get('/callbacks', [AdminController::class, 'callbacks'])->name('callbacks');
         Route::get('/projects', [AdminController::class, 'projects'])->name('projects');
         Route::post('/projects', [AdminController::class, 'storeProject'])->name('projects.store');
@@ -83,6 +87,8 @@ Route::prefix('portal')->name('portal.')->group(function () {
         Route::post('/chat/send', [JobPortalController::class, 'sendChatMessage'])->name('chat.send');
         
         Route::post('/feedback', [JobPortalController::class, 'submitFeedback'])->name('feedback.submit');
+        
+        Route::post('/report-donation', [JobPortalController::class, 'reportDonation'])->name('donation.report');
         
         Route::get('/support', function () {
             return view('portal.support');
