@@ -428,7 +428,7 @@
         <div class="flex items-center gap-4 mb-6">
           <div class="w-12 h-12 rounded-full bg-blue-500 flex items-center justify-center text-white font-bold text-xl">MK</div>
           <div>
-            <h4 class="text-lg font-bold text-gray-200">Manoj Kumar</h4>
+            <h4 class="text-lg font-bold text-gray-200">Manoj Kumar Sharma</h4>
             <p class="text-sm text-blue-500">Senior Project Manager</p>
           </div>
         </div>
