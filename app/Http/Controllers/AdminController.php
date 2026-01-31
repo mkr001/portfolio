@@ -297,8 +297,14 @@ class AdminController extends Controller
 
     public function updateSettings(Request $request)
     {
-        foreach ($request->except('_token') as $key => $value) {
+        foreach ($request->except(['_token', 'upi_qr_code']) as $key => $value) {
             Setting::set($key, $value);
+        }
+
+        // Handle QR Code Upload
+        if ($request->hasFile('upi_qr_code')) {
+            $path = $request->file('upi_qr_code')->store('settings', 'public');
+            Setting::set('upi_qr_code', $path);
         }
 
         Cache::forget('admin_dashboard_stats');

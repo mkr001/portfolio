@@ -16,14 +16,27 @@
 
 <div class="max-w-2xl">
     <div class="card p-8 rounded-3xl border border-white/5">
-        <form action="{{ route('admin.settings.update') }}" method="POST" class="space-y-6">
+        <form action="{{ route('admin.settings.update') }}" method="POST" enctype="multipart/form-data" class="space-y-6">
             @csrf
             
             <div class="space-y-2">
                 <label class="block text-sm font-bold text-gray-400 uppercase tracking-widest">Donation UPI ID</label>
                 <input type="text" name="upi_id" value="{{ $settings['upi_id'] ?? '' }}" 
                        class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white outline-none focus:border-blue-500 transition">
-                <p class="text-[10px] text-gray-500 italic">This UPI ID will be shown to users for direct payments.</p>
+                <p class="text-[10px] text-gray-500 italic">This UPI ID will be used for the automatic QR generator.</p>
+            </div>
+
+            <div class="space-y-2">
+                <label class="block text-sm font-bold text-gray-400 uppercase tracking-widest">Custom QR Code Image (Optional)</label>
+                @if(isset($settings['upi_qr_code']))
+                    <div class="mb-2">
+                        <img src="{{ asset('storage/' . $settings['upi_qr_code']) }}" alt="Current QR" class="w-32 h-32 rounded-lg border border-white/10">
+                        <p class="text-[10px] text-green-500 mt-1">✓ Custom QR is currently active</p>
+                    </div>
+                @endif
+                <input type="file" name="upi_qr_code" accept="image/*"
+                       class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white outline-none focus:border-blue-500 transition">
+                <p class="text-[10px] text-gray-500 italic">Upload your own QR image if the automatic donor scanner fails.</p>
             </div>
 
             <div class="space-y-2">

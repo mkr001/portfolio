@@ -27,8 +27,15 @@
             
             <div style="margin: 1.5rem 0; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 1.5rem;">
                 <p style="margin-bottom: 0.5rem; color: #fff; font-weight: bold;">Scan to donate via UPI</p>
+                @php
+                    $customQr = \App\Models\Setting::get('upi_qr_code');
+                @endphp
                 <div style="width: 150px; height: 150px; background: #fff; margin: 0 auto; border-radius: 10px; display: flex; align-items: center; justify-content: center; overflow: hidden;">
-                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=upi://pay?pa={{ $upiId }}" alt="UPI QR Code">
+                    @if($customQr)
+                        <img src="{{ asset('storage/' . $customQr) }}" alt="UPI QR Code" style="width: 100%; height: 100%; object-fit: cover;">
+                    @else
+                        <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=upi://pay?pa={{ $upiId }}" alt="UPI QR Code">
+                    @endif
                 </div>
                 <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0.5rem;">{{ $upiId }}</p>
             </div>
