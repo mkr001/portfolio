@@ -81,6 +81,9 @@ Route::prefix('portal')->name('portal.')->group(function () {
 
     Route::get('/register', [JobPortalController::class, 'register'])->name('register');
     Route::post('/register', [JobPortalController::class, 'doRegister'])->name('register.post');
+    
+    Route::get('/verify-email', [JobPortalController::class, 'verifyEmail'])->name('verify_email');
+    Route::post('/verify-email', [JobPortalController::class, 'doVerifyEmail'])->name('verify_email.post');
 
     Route::middleware('auth')->group(function () {
         Route::get('/dashboard', [JobPortalController::class, 'dashboard'])->name('dashboard');

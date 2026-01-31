@@ -22,6 +22,9 @@ class User extends Authenticatable
         'email',
         'password',
         'role',
+        'email_verification_otp',
+        'email_verification_otp_expires_at',
+        'email_verified_at',
     ];
 
     public function jobApplication()
@@ -63,7 +66,36 @@ class User extends Authenticatable
     {
         return [
             'email_verified_at' => 'datetime',
+            'email_verification_otp_expires_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    public function generateEmailVerificationOtp()
+    {
+        $otp = str_pad(random_int(0, 999999), 6, '0', STR_PAD_LEFT);
+        $this->email_verification_otp = $otp;
+        $this->email_verification_otp_expires_at = now()->addMinutes(10);
+        $this->save();
+        return $otp;
+    }
+
+    public function verifyEmailOtp($otp)
+    {
+        if ($this->email_verification_otp === $otp && 
+            $this->email_verification_otp_expires_at && 
+            $this->email_verification_otp_expires_at->isFuture()) {
+            $this->email_verified_at = now();
+            $this->email_verification_otp = null;
+            $this->email_verification_otp_expires_at = null;
+            $this->save();
+            return true;
+        }
+        return false;
+    }
+
+    public function isEmailVerified()
+    {
+        return !is_null($this->email_verified_at);
     }
 }

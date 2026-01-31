@@ -42,16 +42,70 @@ class JobPortalController extends Controller
             'role' => ['required', 'in:job_seeker,employer,business_partner,freelance_client'],
         ]);
 
-        $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-            'role' => $request->role,
+        // Store registration data in session
+        session([
+            'registration_data' => [
+                'name' => $request->name,
+                'email' => $request->email,
+                'password' => $request->password,
+                'role' => $request->role,
+            ]
         ]);
 
+        // Create temporary user to send OTP
+        $tempUser = new User();
+        $tempUser->email = $request->email;
+        $tempUser->name = $request->name;
+        $otp = $tempUser->generateEmailVerificationOtp();
+
+        // Send OTP via email (for now, we'll display it)
+        // In production, you would send this via Mail::send()
+        session(['registration_otp' => $otp]);
+
+        return redirect()->route('portal.verify_email')->with('success', 'Please check your email for the verification code. (For testing: ' . $otp . ')');
+    }
+
+    public function verifyEmail()
+    {
+        if (!session('registration_data')) {
+            return redirect()->route('portal.register')->with('error', 'Please register first.');
+        }
+        return view('portal.verify_email');
+    }
+
+    public function doVerifyEmail(Request $request)
+    {
+        $request->validate([
+            'otp' => ['required', 'string', 'size:6'],
+        ]);
+
+        $registrationData = session('registration_data');
+        $sessionOtp = session('registration_otp');
+
+        if (!$registrationData || !$sessionOtp) {
+            return back()->with('error', 'Session expired. Please register again.');
+        }
+
+        if ($request->otp !== $sessionOtp) {
+            return back()->with('error', 'Invalid OTP. Please try again.');
+        }
+
+        // Create the user account
+        $user = User::create([
+            'name' => $registrationData['name'],
+            'email' => $registrationData['email'],
+            'password' => Hash::make($registrationData['password']),
+            'role' => $registrationData['role'],
+            'email_verified_at' => now(),
+        ]);
+
+        // Clear session data
+        session()->forget(['registration_data', 'registration_otp']);
+
+        // Log the user in
         Auth::login($user);
 
-        return redirect()->route('portal.dashboard');
+        return redirect()->route('portal.dashboard')->with('success', 'Email verified successfully! Welcome to your dashboard.');
     }
 
     public function doLogin(Request $request)
