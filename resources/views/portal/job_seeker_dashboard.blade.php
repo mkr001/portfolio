@@ -80,5 +80,6 @@
             </button>
         </form>
     </div>
+    @include('portal.partials.wall_of_fame')
 </div>
 @endsection
