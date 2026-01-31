@@ -112,6 +112,17 @@
     -webkit-text-fill-color: transparent;
     font-weight: 800;
   }
+
+  /* Marquee Animation */
+  .marquee-container { overflow: hidden; white-space: nowrap; position: relative; }
+  .marquee-content { display: inline-block; animation: marquee 20s linear infinite; }
+  .marquee-item { display: inline-block; margin: 0 40px; font-size: 1.5rem; font-weight: 600; color: #94a3b8; opacity: 0.7; transition: all 0.3s; }
+  .marquee-item:hover { color: #3b82f6; opacity: 1; transform: scale(1.1); }
+  
+  @keyframes marquee {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
 </style>
 </head>
 <body>
@@ -135,6 +146,12 @@
 <button id="backToTop" class="fixed bottom-10 right-10 z-50 p-4 bg-blue-500 rounded-full shadow-2xl opacity-0 transition-opacity duration-300 pointer-events-none">
   <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"></path></svg>
 </button>
+
+<!-- WhatsApp Floating Button -->
+<a href="https://wa.me/917762019563?text=Hi%20Mukesh,%20I%20saw%20your%20portfolio..." target="_blank" class="fixed bottom-24 right-10 z-50 p-4 bg-green-500 rounded-full shadow-2xl hover:scale-110 transition-transform duration-300 flex items-center justify-center group">
+  <svg class="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.506-.669-.51-.173-.008-.371-.008-.57-.008-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.084 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
+  <span class="absolute right-full mr-4 bg-white text-gray-800 px-3 py-1 rounded-lg text-sm font-bold opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap shadow-lg">Chat on WhatsApp</span>
+</a>
 
 
 <!-- Navbar -->
@@ -168,6 +185,35 @@
   </div>
 </section>
 
+<!-- Tech Stack Infinite Marquee -->
+<section class="py-10 bg-slate-950 border-y border-white/5 overflow-hidden">
+  <div class="marquee-container">
+    <div class="marquee-content">
+       <span class="marquee-item">☕ Java</span>
+       <span class="marquee-item">🐘 PHP</span>
+       <span class="marquee-item">🔥 Laravel</span>
+       <span class="marquee-item">⚛️ React.js</span>
+       <span class="marquee-item">🟢 Node.js</span>
+       <span class="marquee-item">🐬 MySQL</span>
+       <span class="marquee-item">🎨 Tailwind CSS</span>
+       <span class="marquee-item">🐈 GitHub</span>
+       <span class="marquee-item">🚀 Docker</span>
+       <span class="marquee-item">☁️ AWS</span>
+       <!-- Duplicate for seamless loop -->
+       <span class="marquee-item">☕ Java</span>
+       <span class="marquee-item">🐘 PHP</span>
+       <span class="marquee-item">🔥 Laravel</span>
+       <span class="marquee-item">⚛️ React.js</span>
+       <span class="marquee-item">🟢 Node.js</span>
+       <span class="marquee-item">🐬 MySQL</span>
+       <span class="marquee-item">🎨 Tailwind CSS</span>
+       <span class="marquee-item">🐈 GitHub</span>
+       <span class="marquee-item">🚀 Docker</span>
+       <span class="marquee-item">☁️ AWS</span>
+    </div>
+  </div>
+</section>
+
 <!-- About Section -->
 <section id="about" class="py-20 section-bg">
   <h2 class="text-4xl font-extrabold mb-14 text-center gradient-text tracking-tight uppercase">About Me</h2>
@@ -196,62 +242,71 @@
 <section id="experience" class="py-20 section-bg">
   <h2 class="text-4xl font-extrabold mb-14 text-center gradient-text tracking-tight uppercase">Experience</h2>
   
-  <div class="max-w-6xl mx-auto px-6">
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
-      
-      <!-- Card 1 -->
-      <div class="card p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-transform duration-300 hover:-translate-y-2">
-        <div class="flex items-center gap-3 mb-3">
-          <img src="/images/quality.png" alt="Quality Austria Logo" class="w-10 h-10 object-contain">
-          <h3 class="text-2xl font-semibold text-blue-600">Quality Analyst</h3>
+  <div class="max-w-4xl mx-auto px-6 relative">
+    
+    <!-- Vertical Line -->
+    <div class="absolute left-10 md:left-1/2 top-0 bottom-0 w-0.5 bg-gradient-to-b from-blue-500 to-purple-600 opacity-30 transform -translate-x-1/2"></div>
+
+    <!-- Experience 1 (Latest - Merums) -->
+    <div class="relative w-full mb-12 flex flex-col md:flex-row items-center justify-between group">
+      <div class="order-1 md:w-5/12 text-left md:text-right md:pr-8 pl-16 md:pl-0">
+        <h3 class="text-2xl font-bold text-blue-500 group-hover:text-blue-400 transition">PHP Developer</h3>
+        <p class="text-lg font-semibold text-slate-200"><a href="https://merums.com/" target="_blank" class="hover:underline">Merums Shared Services Pvt Ltd</a></p>
+        <p class="text-sm text-gray-500 mb-2">Feb 2025 – Present | Delhi, India</p>
+        <div class="bg-slate-900/50 p-4 rounded-xl border border-white/5 shadow-inner inline-block">
+          <ul class="text-slate-400 text-sm space-y-1 text-left">
+            <li>Developing and maintaining <span class="text-blue-400">PHP-based applications</span>.</li>
+            <li>Integrating APIs and optimizing <span class="text-blue-400">MySQL</span> queries.</li>
+            <li>Collaborating with UI/UX teams for seamless frontend integration.</li>
+          </ul>
         </div>
-        <p class="text-lg text-slate-200 font-medium">
-          <a href="https://www.qualityaustriacentralasia.com/" target="_blank" rel="noopener noreferrer">Quality Austria Central Asia Pvt Ltd</a>
-        </p>
-        <p class="text-gray-500 mb-4">Oct 2024 – Feb 2025 | Bengaluru, India</p>
-        <ul class="list-disc list-inside text-slate-400 space-y-2">
-          <li>Developed and optimized <span class="font-semibold">Java-based web applications</span>.</li>
-          <li>Collaborated with cross-functional teams to design, test, and deploy new features.</li>
-          <li>Participated in peer <span class="font-semibold">code reviews</span> to uphold coding standards.</li>
-        </ul>
       </div>
-      
-      <!-- Card 2 -->
-      <div class="card p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-transform duration-300 hover:-translate-y-2">
-        <div class="flex items-center gap-3 mb-3">
-          <img src="/images/rmsi.png" alt="RMSI Logo" class="w-10 h-10 object-contain">
-          <h3 class="text-2xl font-semibold text-blue-600">Data Analyst</h3>
-        </div>
-        <p class="text-lg text-slate-200 font-medium">
-          <a href="https://www.rmsi.com/" target="_blank" rel="noopener noreferrer">RMSI Pvt Ltd</a>
-        </p>
-        <p class="text-gray-500 mb-4">Jun 2024 – Aug 2024 | Noida, India</p>
-        <ul class="list-disc list-inside text-slate-400 space-y-2">
-          <li>Performed <span class="font-semibold">data mapping, annotation, and entry</span> for GIS projects.</li>
-          <li>Ensured <span class="font-semibold">data consistency</span> across datasets.</li>
-          <li>Collaborated with team members to <span class="font-semibold">streamline workflows</span>.</li>
-        </ul>
+      <div class="z-20 flex items-center order-1 bg-slate-950 border-4 border-blue-500 shadow-[0_0_15px_rgba(59,130,246,0.5)] w-10 h-10 rounded-full absolute left-10 md:left-1/2 transform -translate-x-1/2">
+        <img src="/images/merums.png" class="w-full h-full object-cover rounded-full p-1" alt="Logo">
       </div>
-      
-      <!-- Card 3 -->
-      <div class="card p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-transform duration-300 hover:-translate-y-2 border-l-4 border-blue-600">
-        <div class="flex items-center gap-3 mb-3">
-          <img src="/images/merums.png" alt="Merums Logo" class="w-10 h-10 object-contain">
-          <h3 class="text-2xl font-semibold text-blue-600">PHP Developer</h3>
-        </div>
-        <p class="text-lg text-slate-200 font-medium">
-          <a href="https://merums.com/" target="_blank" rel="noopener noreferrer">Merums Shared Services Pvt Ltd</a>
-        </p>
-        <p class="text-gray-500 mb-4">Feb 2025 – Present | Delhi, India</p>
-        <ul class="list-disc list-inside text-slate-400 space-y-2">
-          <li>Developing and maintaining <span class="font-semibold">PHP-based web applications</span>.</li>
-          <li>Integrating APIs and working with <span class="font-semibold">MySQL databases</span>.</li>
-          <li>Collaborating with designers and frontend developers for <span class="font-semibold">UI/UX</span>.</li>
-          <li>Debugging and optimizing performance.</li>
-        </ul>
-      </div>
-      
+      <div class="order-1 md:w-5/12 md:pl-8"></div>
     </div>
+
+    <!-- Experience 2 (Quality Austria) -->
+    <div class="relative w-full mb-12 flex flex-col md:flex-row items-center justify-between group">
+      <div class="order-1 md:w-5/12"></div>
+      <div class="z-20 flex items-center order-1 bg-slate-950 border-4 border-purple-500 shadow-[0_0_15px_rgba(168,85,247,0.5)] w-10 h-10 rounded-full absolute left-10 md:left-1/2 transform -translate-x-1/2">
+        <img src="/images/quality.png" class="w-full h-full object-cover rounded-full p-1" alt="Logo">
+      </div>
+      <div class="order-1 md:w-5/12 text-left pl-16 md:pl-8">
+        <h3 class="text-2xl font-bold text-purple-500 group-hover:text-purple-400 transition">Quality Analyst</h3>
+        <p class="text-lg font-semibold text-slate-200"><a href="https://www.qualityaustriacentralasia.com/" target="_blank" class="hover:underline">Quality Austria Central Asia</a></p>
+        <p class="text-sm text-gray-500 mb-2">Oct 2024 – Feb 2025 | Bengaluru, India</p>
+        <div class="bg-slate-900/50 p-4 rounded-xl border border-white/5 shadow-inner">
+          <ul class="text-slate-400 text-sm space-y-1">
+            <li>Developed and optimized <span class="text-purple-400">Java web applications</span>.</li>
+            <li>Collaborated with teams to deploy new features.</li>
+            <li>Conducted peer code reviews for higher quality standards.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Experience 3 (RMSI) -->
+    <div class="relative w-full flex flex-col md:flex-row items-center justify-between group">
+      <div class="order-1 md:w-5/12 text-left md:text-right md:pr-8 pl-16 md:pl-0">
+        <h3 class="text-2xl font-bold text-green-500 group-hover:text-green-400 transition">Data Analyst</h3>
+        <p class="text-lg font-semibold text-slate-200"><a href="https://www.rmsi.com/" target="_blank" class="hover:underline">RMSI Pvt Ltd</a></p>
+        <p class="text-sm text-gray-500 mb-2">Jun 2024 – Aug 2024 | Noida, India</p>
+        <div class="bg-slate-900/50 p-4 rounded-xl border border-white/5 shadow-inner inline-block">
+          <ul class="text-slate-400 text-sm space-y-1 text-left">
+            <li>Performed <span class="text-green-400">GIS data mapping</span> and validation.</li>
+            <li>Ensured 100% data consistency across large datasets.</li>
+            <li>Streamlined workflows for better team efficiency.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="z-20 flex items-center order-1 bg-slate-950 border-4 border-green-500 shadow-[0_0_15px_rgba(34,197,94,0.5)] w-10 h-10 rounded-full absolute left-10 md:left-1/2 transform -translate-x-1/2">
+        <img src="/images/rmsi.png" class="w-full h-full object-cover rounded-full p-1" alt="Logo">
+      </div>
+      <div class="order-1 md:w-5/12 md:pl-8"></div>
+    </div>
+
   </div>
 </section>
 
@@ -428,7 +483,7 @@
         <div class="flex items-center gap-4 mb-6">
           <div class="w-12 h-12 rounded-full bg-blue-500 flex items-center justify-center text-white font-bold text-xl">MK</div>
           <div>
-            <h4 class="text-lg font-bold text-gray-200">Manoj Kumar Sharma</h4>
+            <h4 class="text-lg font-bold text-gray-200">Manish Ray</h4>
             <p class="text-sm text-blue-500">Senior Project Manager</p>
           </div>
         </div>
@@ -467,7 +522,7 @@
 <section id="services" class="py-20 section-bg">
   <h2 class="text-4xl font-extrabold mb-14 text-center gradient-text tracking-tight uppercase">Services & Offerings</h2>
 
-  <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 px-6">
+  <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-10 px-6">
 
     <!-- Freelancing Services -->
     <div class="card p-8 rounded-3xl shadow-2xl hover:shadow-3xl transition-transform transform hover:-translate-y-3 hover:scale-105 card">
@@ -477,9 +532,10 @@
       <ul class="list-disc list-inside text-slate-400 space-y-1">
         <li>Custom Java Applications</li>
         <li>Web Development (Frontend & Backend)</li>
-        <li>Database Design & Optimization</li>
+        <li>DB Design & Optimization</li>
         <li>API Development & Integration</li>
       </ul>
+      <a href="{{ route('portal.register', ['role' => 'freelance_client']) }}" class="mt-4 inline-block w-full text-center py-2 rounded-lg bg-blue-500 text-white hover:bg-blue-600 transition font-semibold">Hire for Project</a>
     </div>
 
     <!-- Business Growth Consultation -->
@@ -493,6 +549,7 @@
         <li>Technology Roadmap Planning</li>
         <li>Startup Growth Consulting</li>
       </ul>
+      <a href="{{ route('portal.register', ['role' => 'business_partner']) }}" class="mt-4 inline-block w-full text-center py-2 rounded-lg bg-green-500 text-white hover:bg-green-600 transition font-semibold">Connect for Growth</a>
     </div>
 
     <!-- Technology Growth & Innovation -->
@@ -506,6 +563,24 @@
         <li>Emerging Tech Research</li>
         <li>Tech Innovation Workshops</li>
       </ul>
+      </ul>
+    </div>
+
+    <!-- Career Connector (New Service) -->
+    <div class="card p-8 rounded-3xl shadow-2xl hover:shadow-3xl transition-transform transform hover:-translate-y-3 hover:scale-105 card border-2 border-orange-500/50 relative overflow-hidden group">
+      <div class="absolute top-0 right-0 bg-orange-500 text-white text-xs font-bold px-3 py-1 rounded-bl-lg">NEW</div>
+      <h3 class="text-2xl font-bold mb-4 text-orange-500">Career Connector</h3>
+      <p class="text-slate-400 mb-4">Bridging the gap between talent and opportunity. Whether you're looking for a job or looking to hire, I can help connect the right people.</p>
+      <ul class="list-disc list-inside text-slate-400 space-y-1 mb-6">
+        <li><strong class="text-orange-400">Job Seekers:</strong> Upload CV & Get Hired.</li>
+        <li><strong class="text-orange-400">Employers:</strong> View & Shortlist Candidates.</li>
+        <li>Resume Review & Guidance</li>
+        <li>Networking Opportunities</li>
+      </ul>
+      <div class="flex gap-2">
+        <a href="{{ route('portal.register', ['role' => 'job_seeker']) }}" class="flex-1 text-center py-2 rounded-lg border border-orange-500 text-orange-500 hover:bg-orange-500 hover:text-white transition font-semibold text-sm">Job Seeker</a>
+        <a href="{{ route('portal.register', ['role' => 'employer']) }}" class="flex-1 text-center py-2 rounded-lg bg-orange-500 text-white hover:bg-orange-600 transition font-semibold text-sm">Employer</a>
+      </div>
     </div>
 
   </div>
@@ -534,7 +609,7 @@
     <div class="p-8 rounded-3xl backdrop-blur-md shadow-2xl hover:shadow-3xl transition-transform transform hover:-translate-y-3 card">
 
       <h3 class="text-2xl font-bold mb-6 text-blue-600">Send a Message</h3>
-      <form action="{{ route('contact.post') }}" method="POST" class="space-y-4">
+      <form action="{{ route('contact.post') }}" method="POST" class="space-y-4" enctype="multipart/form-data" id="contactForm">
         @csrf
         <div>
           <label class="block text-slate-400 font-medium mb-2">Name</label>
@@ -548,15 +623,26 @@
         </div>
         <div>
           <label class="block text-slate-400 font-medium mb-2">Purpose</label>
-          <select name="purpose" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+          <select name="purpose" id="purposeSelect" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" onchange="toggleCvField()">
             <option value="">Select Purpose</option>
             <option value="general" {{ old('purpose') == 'general' ? 'selected' : '' }}>General Inquiry</option>
             <option value="freelancing" {{ old('purpose') == 'freelancing' ? 'selected' : '' }}>Freelancing Project</option>
             <option value="business" {{ old('purpose') == 'business' ? 'selected' : '' }}>Business Growth Discussion</option>
             <option value="technology" {{ old('purpose') == 'technology' ? 'selected' : '' }}>Technology Consultation</option>
+            <option disabled>--- Career Connector ---</option>
+            <option value="job_seeker" {{ old('purpose') == 'job_seeker' ? 'selected' : '' }}>Career: I Need a Job (Upload CV)</option>
+            <option value="hiring" {{ old('purpose') == 'hiring' ? 'selected' : '' }}>Career: I Want to Hire (Employer)</option>
           </select>
           @error('purpose') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
         </div>
+        
+        <!-- CV Upload Field (Hidden by default) -->
+        <div id="cvField" class="hidden">
+          <label class="block text-slate-400 font-medium mb-2">Upload CV / Resume (PDF/DOC)</label>
+          <input type="file" name="cv" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-400 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100">
+          @error('cv') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
+        </div>
+
         <div>
           <label class="block text-slate-400 font-medium mb-2">Message</label>
           <textarea name="message" rows="4" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">{{ old('message') }}</textarea>
@@ -564,6 +650,18 @@
         </div>
         <button type="submit" class="w-full bg-blue-500 text-white py-2 rounded-lg font-semibold hover:bg-blue-600 transition">Send Message</button>
       </form>
+
+      <script>
+        function toggleCvField() {
+            const purpose = document.getElementById('purposeSelect').value;
+            const cvField = document.getElementById('cvField');
+            if (purpose === 'job_seeker') {
+                cvField.classList.remove('hidden');
+            } else {
+                cvField.classList.add('hidden');
+            }
+        }
+      </script>
     </div>
 
     <!-- Request Callback Form -->
@@ -622,6 +720,12 @@
     <div class="flex justify-center flex-wrap gap-4">
       <a href="https://www.linkedin.com/in/mukeshkumarray360/" target="_blank" class="px-5 py-2 rounded-full bg-blue-100 text-blue-700 font-medium hover:bg-blue-200 transition">LinkedIn</a>
       <a href="https://github.com/mkr001" target="_blank" class="px-5 py-2 rounded-full bg-gray-100 text-gray-800 font-medium hover:bg-gray-200 transition">GitHub</a>
+      
+      <!-- Added Social Media Platforms -->
+      <a href="#" target="_blank" class="px-5 py-2 rounded-full bg-pink-100 text-pink-600 font-medium hover:bg-pink-200 transition">Instagram</a>
+      <a href="#" target="_blank" class="px-5 py-2 rounded-full bg-blue-100 text-blue-900 font-medium hover:bg-blue-200 transition">Facebook</a>
+      <a href="https://www.youtube.com/@lifetech360M" target="_blank" class="px-5 py-2 rounded-full bg-red-100 text-red-600 font-medium hover:bg-red-200 transition">YouTube</a>
+
       <a href="mailto:mukeshrk2003@gmail.com" class="px-5 py-2 rounded-full bg-green-100 text-green-700 font-medium hover:bg-green-200 transition">Send Email</a>
     </div>
   </div>

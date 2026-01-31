@@ -6,7 +6,14 @@
     <p class="text-gray-400 mt-2">Welcome back, Mukesh! Here's what's happening today.</p>
 </div>
 
-<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+    <!-- Stat 0 -->
+    <div class="card p-8 rounded-3xl shadow-xl border-l-4 border-blue-500">
+        <div class="text-gray-400 font-semibold mb-2 text-sm uppercase">Registered Users</div>
+        <div class="text-5xl font-black text-white">{{ $stats['users'] }}</div>
+        <div class="mt-4 text-xs text-gray-500">Total accounts on platform</div>
+    </div>
+
     <!-- Stat 1 -->
     <div class="card p-8 rounded-3xl shadow-xl">
         <div class="text-gray-400 font-semibold mb-2">Total Messages</div>
@@ -22,11 +29,39 @@
     </div>
 
     <!-- Stat 3 -->
-    <div class="card p-8 rounded-3xl shadow-xl">
+    <div class="card p-8 rounded-3xl shadow-xl border-t-4 border-purple-500">
         <div class="text-gray-400 font-semibold mb-2">Active Projects</div>
         <div class="text-5xl font-black text-purple-500">{{ $stats['projects'] }}</div>
         <div class="mt-4 text-sm text-gray-500">Displayed on your portfolio</div>
     </div>
+
+    <!-- Stat 4 -->
+    <div class="card p-8 rounded-3xl shadow-xl">
+        <div class="text-gray-400 font-semibold mb-2">Job Applications</div>
+        <div class="text-5xl font-black text-orange-500">{{ $stats['applications'] }}</div>
+        <div class="mt-4 text-sm text-gray-500">Portal registrations & CVs</div>
+    </div>
+
+    <!-- Stat 5 -->
+    <div class="card p-8 rounded-3xl shadow-xl">
+        <div class="text-gray-400 font-semibold mb-2">Business Inquiries</div>
+        <div class="text-5xl font-black text-cyan-500">{{ $stats['business_inquiries'] }}</div>
+        <div class="mt-4 text-sm text-gray-500">Growth & strategy partners</div>
+    </div>
+
+    <!-- Stat 6 -->
+    <div class="card p-8 rounded-3xl shadow-xl">
+        <div class="text-gray-400 font-semibold mb-2">Freelance Requests</div>
+        <div class="text-5xl font-black text-indigo-500">{{ $stats['freelance_inquiries'] }}</div>
+        <div class="mt-4 text-sm text-gray-500">Project hire requests</div>
+    </div>
+
+    <!-- Stat 7 -->
+    <a href="{{ route('admin.chats') }}" class="card p-8 rounded-3xl shadow-xl hover:bg-white/5 transition border-l-4 border-red-500 block">
+        <div class="text-gray-400 font-semibold mb-2 text-sm uppercase">Unread Chats</div>
+        <div class="text-5xl font-black text-red-500">{{ $stats['unread_chats'] }}</div>
+        <div class="mt-4 text-xs text-gray-500 underline">Respond to users →</div>
+    </a>
 </div>
 
 <div class="mt-12 grid grid-cols-1 lg:grid-cols-2 gap-8">

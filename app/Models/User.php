@@ -21,7 +21,28 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'role',
     ];
+
+    public function jobApplication()
+    {
+        return $this->hasOne(JobApplication::class);
+    }
+
+    public function businessInquiry()
+    {
+        return $this->hasOne(BusinessInquiry::class);
+    }
+
+    public function freelanceInquiry()
+    {
+        return $this->hasOne(FreelanceInquiry::class);
+    }
+
+    public function chatMessages()
+    {
+        return $this->hasMany(ChatMessage::class);
+    }
 
     /**
      * The attributes that should be hidden for serialization.
