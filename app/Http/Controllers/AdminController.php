@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Auth;
 use App\Models\Contact;
 use App\Models\Callback;
 use App\Models\Project;
@@ -179,6 +180,14 @@ class AdminController extends Controller
     {
         $users = User::latest()->paginate(20);
         return view('admin.users', compact('users'));
+    }
+
+    public function impersonateUser(User $user)
+    {
+        // Log in as the user
+        Auth::login($user);
+        
+        return redirect()->route('portal.dashboard')->with('success', 'Logged in as ' . $user->name);
     }
 
     public function editUser(User $user)

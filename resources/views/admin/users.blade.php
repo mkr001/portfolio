@@ -54,6 +54,9 @@
                             {{ $user->created_at->format('M d, Y') }}
                         </td>
                         <td class="p-4 text-right flex justify-end gap-2">
+                            <a href="{{ route('admin.users.impersonate', $user->id) }}" target="_blank" class="text-green-400 hover:text-green-300 text-xs font-bold uppercase tracking-widest bg-green-500/10 px-3 py-1 rounded-lg border border-green-500/20 transition">
+                                Login
+                            </a>
                             <a href="{{ route('admin.user_chat', $user->id) }}" class="text-indigo-400 hover:text-indigo-300 text-xs font-bold uppercase tracking-widest bg-indigo-500/10 px-3 py-1 rounded-lg border border-indigo-500/20 transition">
                                 Chat
                             </a>

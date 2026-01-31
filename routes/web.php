@@ -41,6 +41,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::post('/freelance-inquiries/{inquiry}/status', [AdminController::class, 'adminUpdateFreelanceStatus'])->name('freelance_inquiries.status');
         
         Route::get('/users', [AdminController::class, 'users'])->name('users');
+        Route::get('/users/{user}/impersonate', [AdminController::class, 'impersonateUser'])->name('users.impersonate');
         Route::get('/users/{user}/edit', [AdminController::class, 'editUser'])->name('users.edit');
         Route::put('/users/{user}', [AdminController::class, 'updateUser'])->name('users.update');
         Route::delete('/users/{user}', [AdminController::class, 'deleteUser'])->name('users.delete');
